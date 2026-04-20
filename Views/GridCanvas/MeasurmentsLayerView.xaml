@@ -1,0 +1,11 @@
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:KnitStichGrid.ViewModels.GridCanvas"
+             x:Class="KnitStichGrid.Views.GridCanvas.MeasurmentsLayerView">
+    <Grid>
+        <Canvas IsHitTestVisible="True">
+            <!-- Rectangle and handles rendered here. DataContext expected to be MeasurmentsLayerViewModel. -->
+            <Rectangle Stroke="Blue" StrokeThickness="1" Fill="#220066FF"/>
+        </Canvas>
+    </Grid>
+</UserControl>

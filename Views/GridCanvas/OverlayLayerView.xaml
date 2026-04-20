@@ -1,0 +1,16 @@
+<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:KnitStichGrid.ViewModels.GridCanvas"
+             x:Class="KnitStichGrid.Views.GridCanvas.OverlayLayerView">
+    <Grid>
+        <!-- This view expects its DataContext to be OverlayLayerViewModel.
+             Rendering and interaction (Thumbs, hit testing) are implemented here in XAML
+             and lightweight code-behind that converts screen <-> image coordinates using
+             the GridCanvasViewModel helpers. -->
+        <Canvas IsHitTestVisible="True">
+            <Image Source="{Binding ImagePath}" Opacity="{Binding Opacity}" Visibility="{Binding IsVisible, Converter={StaticResource BoolToVis}}"/>
+            <!-- Calibration line and endpoints would be drawn here using bindings to CalibP1/P2
+                 Coordinates are expected to be transformed by the parent control. -->
+        </Canvas>
+    </Grid>
+</UserControl>

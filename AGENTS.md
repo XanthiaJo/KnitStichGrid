@@ -5,27 +5,32 @@
 
 - `Models/`: domain data such as gauge, dimensions, and finished-size records.
 - `Services/`: calculation logic and service interfaces.
-- `ViewModels/`: UI state and commands, including `MainViewModel` and `PatternCanvasViewModel`.
-- `Views/`: WPF XAML views and code-behind, including `PatternCanvasControl`.
+ - `ViewModels/`: UI state and commands, including `MainViewModel` and `GridCanvasViewModel`.
+ - `Views/`: WPF XAML views and code-behind, including `GridCanvasControl`.
 - `Commands/`: shared command helpers such as `RelayCommand`.
 - `Notes/`: implementation/reference notes such as `Notes/overlay.md`.
 - `bin/` and `obj/`: generated build output; do not edit or commit manually.
 
 There is no dedicated test project yet. When adding one, place it in a sibling folder such as `KnitStichGrid.Tests/`.
 
-## Preview Architecture Rules
+## GridCanvas Architecture Rules
 - `MainViewModel` owns gauge input, finished-size calculation, and app-level orchestration.
-- `PatternCanvasViewModel` owns preview/grid state: row and column counts, preview cells, preview sizing, and overlay UI state.
-- `PatternCanvasControl` owns preview composition only; keep business and calculation logic out of view code-behind.
+- `GridCanvasViewModel` owns the gridcanvas state: row and column counts, preview cells, preview sizing, and overlay UI state.
+- `GridCanvasControl` owns preview composition only; keep business and calculation logic out of view code-behind.
 
 ## Binding Conventions
-- Controls that edit preview, grid, or overlay state should bind through `PatternCanvas.*`.
-- Do not reintroduce preview-owned properties directly on `MainViewModel`.
-- Keep coordination between `MainViewModel` and `PatternCanvasViewModel` explicit when recalculation or preview sizing needs to stay in sync.
+- Controls that edit gridcanvas, grid, or overlay state should bind through `GridCanvas.*`.
+- Do not reintroduce gridcanvas-owned properties directly on `MainViewModel`.
+- Keep coordination between `MainViewModel` and `GridCanvasViewModel` explicit when recalculation or preview sizing needs to stay in sync.
 
 ## Overlay Reference
 - Use `Notes/overlay.md` as the source of truth for planned overlay, calibration, and measurement behavior.
-- The current preview split is structural groundwork; layered image and measurement rendering is still to be implemented.
+- Naming conventions for layers and sections:
+  - The overall grid section is known as the "gridcanvas" (GridCanvasViewModel/GridCanvasControl).
+  - The image overlay is the "overlaylayer" (OverlayLayerViewModel / OverlayLayerView).
+  - The measurements layer is the "measurmentslayer" (MeasurmentsLayerViewModel / MeasurementsLayerView).
+  - If the grid rendering is split out from the gridcanvas, that concrete layer is the "gridlayer" (GridLayerViewModel / GridLayerView).
+  - Use these names in bindings, commands, and documentation to keep the codebase consistent.
 
 ## Build, Test, and Development Commands
 - `dotnet restore`: restore NuGet dependencies for the solution.

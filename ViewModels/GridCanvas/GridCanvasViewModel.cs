@@ -5,9 +5,9 @@ using System.Windows.Media.Imaging;
 using KnitStichGrid.Commands;
 using Microsoft.Win32;
 
-namespace KnitStichGrid.ViewModels;
+namespace KnitStichGrid.ViewModels.GridCanvas;
 
-public sealed class PatternCanvasViewModel : ViewModelBase
+public sealed class GridCanvasViewModel : ViewModelBase
 {
     private double _cellWidthPx = 20;
     private double _cellHeightPx = 28;
@@ -19,7 +19,7 @@ public sealed class PatternCanvasViewModel : ViewModelBase
     private double _overlayOpacity = 0.5;
     private readonly RelayCommand _clearOverlayImageCommand;
 
-    public PatternCanvasViewModel()
+    public GridCanvasViewModel()
     {
         PreviewCells = new ObservableCollection<GridCellViewModel>();
         BrowseOverlayImageCommand = new RelayCommand(BrowseOverlayImage);

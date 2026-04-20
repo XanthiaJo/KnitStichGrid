@@ -3,6 +3,7 @@ using System.Windows.Input;
 using KnitStichGrid.Commands;
 using KnitStichGrid.Models;
 using KnitStichGrid.Services.Interfaces;
+using KnitStichGrid.ViewModels.GridCanvas;
 
 namespace KnitStichGrid.ViewModels;
 
@@ -18,8 +19,8 @@ public sealed class MainViewModel : ViewModelBase
     public MainViewModel(IFinishedSizeCalculator finishedSizeCalculator)
     {
         _finishedSizeCalculator = finishedSizeCalculator;
-        PatternCanvas = new PatternCanvasViewModel();
-        PatternCanvas.PropertyChanged += OnPatternCanvasPropertyChanged;
+        GridCanvas = new GridCanvasViewModel();
+        GridCanvas.PropertyChanged += OnGridCanvasPropertyChanged;
         RecalculateSizeCommand = new RelayCommand(RecalculateSize);
         RecalculateSize();
     }
@@ -61,7 +62,7 @@ public sealed class MainViewModel : ViewModelBase
     }
 
     public ICommand RecalculateSizeCommand { get; }
-    public PatternCanvasViewModel PatternCanvas { get; }
+    public GridCanvasViewModel GridCanvas { get; }
 
     private void RecalculateSize()
     {
@@ -73,19 +74,19 @@ public sealed class MainViewModel : ViewModelBase
 
         var dimensions = new PatternDimensions
         {
-            StitchCount = PatternCanvas.GridColumns,
-            RowCount = PatternCanvas.GridRows
+            StitchCount = GridCanvas.GridColumns,
+            RowCount = GridCanvas.GridRows
         };
 
         var finishedSize = _finishedSizeCalculator.Calculate(gauge, dimensions);
         FinishedWidthInches = Math.Round(finishedSize.WidthInches, 2);
         FinishedHeightInches = Math.Round(finishedSize.HeightInches, 2);
-        PatternCanvas.UpdateCellSizing(StitchesPer4Inches, RowsPer4Inches);
+        GridCanvas.UpdateCellSizing(StitchesPer4Inches, RowsPer4Inches);
     }
 
-    private void OnPatternCanvasPropertyChanged(object? sender, PropertyChangedEventArgs args)
+    private void OnGridCanvasPropertyChanged(object? sender, PropertyChangedEventArgs args)
     {
-        if (args.PropertyName is nameof(PatternCanvasViewModel.GridColumns) or nameof(PatternCanvasViewModel.GridRows))
+        if (args.PropertyName is nameof(GridCanvasViewModel.GridColumns) or nameof(GridCanvasViewModel.GridRows))
         {
             RecalculateSize();
         }
