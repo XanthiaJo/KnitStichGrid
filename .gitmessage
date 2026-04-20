@@ -1,0 +1,20 @@
+# Commit message template following the repository's AGENTS.md (Conventional Commits)
+# Header: type(scope?): subject
+# - type: feat, fix, perf, docs, style, refactor, test, chore, build, ci, revert
+# - scope: optional, short noun (e.g., canvas, gauge)
+# - subject: short imperative summary (max ~72 chars)
+# Examples:
+#   feat(canvas): add export as PNG
+#   fix(gauge): correct rounding in calculation
+
+type(scope?): subject
+
+# Body (optional): motivation and contrast. Wrap at ~72 chars.
+#
+# Footer (optional):
+# - Use `BREAKING CHANGE: description` for breaking API changes (or type! in header).
+# - Reference issues when applicable: `Closes #123`
+
+# Notes:
+# - Keep the header short and imperative.
+# - Use scopes to make the changelog clearer (e.g., feat(canvas): ...).

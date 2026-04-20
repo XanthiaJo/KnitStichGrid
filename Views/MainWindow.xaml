@@ -1,0 +1,160 @@
+<Window x:Class="KnitStichGrid.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:KnitStichGrid.Views"
+        mc:Ignorable="d"
+        Title="KnitStichGrid"
+        Height="560"
+        Width="900"
+        MinHeight="460"
+        MinWidth="760">
+    <Grid Margin="16">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.ColumnSpan="2"
+                   FontSize="24"
+                   FontWeight="SemiBold"
+                   Text="Knit Pattern Grid Planner" />
+
+        <views:PatternCanvasControl Grid.Row="1"
+                                    DataContext="{Binding PatternCanvas}" />
+
+        <ScrollViewer Grid.Row="1"
+                      Grid.Column="1"
+                      Margin="0,12,0,0"
+                      VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <GroupBox Header="Gauge (per 4 inches)" Margin="0,0,0,12">
+                    <Grid Margin="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock VerticalAlignment="Center" Text="Stitches:" />
+                        <TextBox Grid.Column="1"
+                                 Margin="8,0,0,6"
+                                 Text="{Binding StitchesPer4Inches, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <TextBlock Grid.Row="1" VerticalAlignment="Center" Text="Rows:" />
+                        <TextBox Grid.Row="1"
+                                 Grid.Column="1"
+                                 Margin="8,0,0,0"
+                                 Text="{Binding RowsPer4Inches, UpdateSourceTrigger=PropertyChanged}" />
+                    </Grid>
+                </GroupBox>
+
+                <GroupBox Header="Grid (Cells)" Margin="0,0,0,12">
+                    <Grid Margin="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock VerticalAlignment="Center" Text="Columns:" />
+                        <TextBox Grid.Column="1"
+                                 Margin="8,0,0,6"
+                                 Text="{Binding PatternCanvas.GridColumns, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <TextBlock Grid.Row="1" VerticalAlignment="Center" Text="Rows:" />
+                        <TextBox Grid.Row="1"
+                                 Grid.Column="1"
+                                 Margin="8,0,0,6"
+                                 Text="{Binding PatternCanvas.GridRows, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <StackPanel Grid.Row="2"
+                                    Grid.ColumnSpan="2"
+                                    Margin="0,10,0,0"
+                                    Orientation="Horizontal">
+                            <TextBlock FontWeight="SemiBold"
+                                       Text="{Binding PatternCanvas.GridColumns, StringFormat=Grid: {0} x }" />
+                            <TextBlock FontWeight="SemiBold"
+                                       Text="{Binding PatternCanvas.GridRows, StringFormat={}{0} cells}" />
+                            <TextBlock Margin="8,0,0,0"
+                                       FontWeight="SemiBold"
+                                       Text="{Binding PatternCanvas.TotalCellCount, StringFormat={}{0} total cells}" />
+                        </StackPanel>
+                        <StackPanel Grid.Row="2"
+                                    Grid.ColumnSpan="2"
+                                    Margin="0,30,0,0"
+                                    Orientation="Horizontal">
+                            <TextBlock Foreground="#666666"
+                                       Text="{Binding PatternCanvas.CellWidthPx, StringFormat=Cell size: {0}px wide x }" />
+                            <TextBlock Foreground="#666666"
+                                       Text="{Binding PatternCanvas.CellHeightPx, StringFormat={}{0}px high}" />
+                        </StackPanel>
+                    </Grid>
+                </GroupBox>
+
+                <GroupBox Header="Image Overlay" Margin="0,0,0,12">
+                    <Grid Margin="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBox Text="{Binding PatternCanvas.OverlayImagePath, UpdateSourceTrigger=PropertyChanged}" />
+                        <Button Grid.Column="1"
+                                Margin="8,0,0,0"
+                                Padding="10,2"
+                                Content="Browse"
+                                Command="{Binding PatternCanvas.BrowseOverlayImageCommand}" />
+                        <Button Grid.Column="2"
+                                Margin="8,0,0,0"
+                                Padding="10,2"
+                                Content="Clear"
+                                Command="{Binding PatternCanvas.ClearOverlayImageCommand}" />
+                        <CheckBox Grid.Row="1"
+                                  Grid.ColumnSpan="3"
+                                  Margin="0,8,0,8"
+                                  Content="Show overlay"
+                                  IsChecked="{Binding PatternCanvas.IsOverlayVisible}" />
+                        <StackPanel Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal">
+                            <TextBlock VerticalAlignment="Center" Text="Opacity" />
+                            <Slider Width="140"
+                                    Margin="8,0,0,0"
+                                    Minimum="0"
+                                    Maximum="1"
+                                    SmallChange="0.05"
+                                    Value="{Binding PatternCanvas.OverlayOpacity}" />
+                        </StackPanel>
+                    </Grid>
+                </GroupBox>
+
+                <GroupBox Header="Finished Size">
+                    <StackPanel Margin="8">
+                        <TextBlock Text="{Binding FinishedWidthInches, StringFormat=Width: {0} in}" />
+                        <TextBlock Margin="0,4,0,8"
+                                   Text="{Binding FinishedHeightInches, StringFormat=Height: {0} in}" />
+                        <Button Content="Recalculate"
+                                Command="{Binding RecalculateSizeCommand}" />
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>
